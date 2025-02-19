@@ -11,7 +11,7 @@ English dictionary app connected to (Free Dictionary API)[https://dictionaryapi.
 - Cache API responses
 
 ## Tech Stack
-- App: Flutter
+- App: Flutter (version 3.27.4) and Dart (version 3.6.2)
 - State Management: Riverpod
 - Dependency Injection: GetIt
 - Local backend: SQFLite
@@ -26,7 +26,7 @@ English dictionary app connected to (Free Dictionary API)[https://dictionaryapi.
 `make run` or `flutter run`
 
 - Build the app
-`make build` or `flutter build apk`
+`make build-apk` or `flutter build apk`
 
 - Generate Riverpod files
 `make riverpod` or `dart run build_runner build`

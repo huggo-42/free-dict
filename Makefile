@@ -1,7 +1,7 @@
 run:
 	@flutter run
 
-build:
+build-apk:
 	@flutter build apk
 
 riverpod:
