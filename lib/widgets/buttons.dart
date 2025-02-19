@@ -24,17 +24,20 @@ class FilledButtonWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         ),
       ),
-      child: child ??
-          (isLoading
-              ? const SizedBox(
-                  height: 20,
-                  width: 20,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                  ),
-                )
-              : Text(label)),
+      child: _child,
     );
+  }
+
+  Widget get _child {
+    return !isLoading
+        ? Text(label)
+        : const SizedBox(
+            height: 20,
+            width: 20,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            ),
+          );
   }
 }

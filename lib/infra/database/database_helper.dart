@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:crypto/crypto.dart';
+
+import '../../data/models/account_model.dart';
 
 class DatabaseHelper {
   static Database? _database;
@@ -119,6 +122,36 @@ class DatabaseHelper {
         'username': username,
         'password': passwordHash,
       });
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<int?> saveAccount(Account account) async {
+    try {
+      final db = await database;
+      final passwordHash =
+          sha256.convert(utf8.encode(account.password)).toString();
+      final userId = await db.insert(userTable, {
+        'username': account.username,
+        'password': passwordHash,
+      });
+      return userId;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<Account?> getAccountById(int accountId) async {
+    final db = await database;
+    try {
+      final user = await db.query(
+        userTable,
+        where: 'id = ?',
+        whereArgs: [accountId],
+        limit: 1,
+      );
+      return Account.fromMap(user.first);
     } catch (e) {
       return null;
     }

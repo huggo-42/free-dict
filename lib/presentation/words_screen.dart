@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../data/datasources/cache.dart';
 import '../infra/database/database_helper.dart';
-import '../infra/di/di.dart';
 import '../providers/word_providers.dart';
 import '../providers/auth_provider.dart';
+import '../infra/di/di.dart';
 import '../widgets/word_item.dart';
 import 'login_screen.dart';
 
@@ -53,11 +52,9 @@ class _WordsScreenState extends ConsumerState<WordsScreen>
 
   Future<void> _loadMoreWords() async {
     if (_isLoading) return;
-
     setState(() {
       _isLoading = true;
     });
-
     try {
       final newWords =
           await _dbHelper.getWordsPaginated(_currentOffset, _pageSize);
@@ -85,7 +82,6 @@ class _WordsScreenState extends ConsumerState<WordsScreen>
         _showScrollToTop = showScrollToTop;
       });
     }
-
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent - 500) {
       _loadMoreWords();
@@ -170,7 +166,6 @@ class _WordsScreenState extends ConsumerState<WordsScreen>
             ),
           );
         }
-
         return WordItem(word: _words[index]);
       },
     );
@@ -278,8 +273,8 @@ class _WordsScreenState extends ConsumerState<WordsScreen>
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     final user = ref.watch(authProvider);
+    final colorScheme = Theme.of(context).colorScheme;
 
     bool shouldShowScrollToTop =
         (_selectedTabIndex == TabIndexes.wordList.index) && _showScrollToTop;
@@ -290,7 +285,7 @@ class _WordsScreenState extends ConsumerState<WordsScreen>
     return Scaffold(
       appBar: AppBar(
         title: const Text('Dictionary'),
-        backgroundColor: colorScheme.surfaceVariant,
+        backgroundColor: colorScheme.surfaceContainerHighest,
         actions: [
           Center(
             child: Padding(

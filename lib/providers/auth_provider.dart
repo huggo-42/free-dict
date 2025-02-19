@@ -1,5 +1,7 @@
-import 'package:free_dict/main.dart';
+import 'package:free_dict/infra/repository/account_repository.dart';
+import 'package:free_dict/utils/log.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import '../data/models/account_model.dart';
 import '../infra/database/database_helper.dart';
 import '../infra/di/di.dart';
 
@@ -45,17 +47,23 @@ class Auth extends _$Auth {
 
   Future<int?> signup(String username, String password) async {
     try {
-      final dbHelper = locator<DatabaseHelper>();
-      final userId = await dbHelper.createUser(username, password);
-      final user = await dbHelper.getUserById(userId ?? 0);
-      if (user == null) return null;
+      final accountRepository = locator<AccountRepository>();
+      final accountId = await accountRepository.saveAccount(Account(
+        username: username,
+        password: password,
+      ));
+      if (accountId == null) return null;
+      final account = await accountRepository.getAccountById(accountId);
+      if (account == null) return null;
       state = AuthState(
-        userId: user['id'],
-        username: user['username'],
+        userId: account.id,
+        username: account.username,
         isLoggedIn: true,
       );
-      return user['id'];
+      log(LogLevel.warning, 'auth_provider signup -> UserID $accountId');
+      return accountId;
     } catch (e) {
+      log(LogLevel.error, 'auth_provider Error creating account: $e');
       return null;
     }
   }

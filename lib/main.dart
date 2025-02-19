@@ -5,7 +5,7 @@ import 'infra/di/di.dart';
 import 'presentation/login_screen.dart';
 
 void main() async {
-  await setupServiceLocator();
+  await setupDependencyInjection();
   final dbHelper = locator<DatabaseHelper>();
   await dbHelper.initializeWordsFromJson();
   runApp(const ProviderScope(child: MyApp()));
@@ -26,9 +26,4 @@ class MyApp extends StatelessWidget {
       home: const LoginScreen(),
     );
   }
-}
-
-void printTool(String text) {
-  DateTime now = DateTime.now();
-  print('\x1B[33m${now.hour}:${now.minute % 60}  ->  $text\x1B[0m');
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../infra/database/database_helper.dart';
-import '../providers/auth_provider.dart';
 import '../infra/di/di.dart';
+import '../providers/auth_provider.dart';
 import '../widgets/buttons.dart';
 import 'words_screen.dart';
 
@@ -41,15 +41,19 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
           .read(authProvider.notifier)
           .signup(_usernameController.text, _passwordController.text);
       if (userId == null) {
+        setState(() {
+          _isLoading = false;
+        });
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Failed to create account'),
             backgroundColor: Colors.red,
           ),
         );
+        return;
       }
       final dbHelper = locator<DatabaseHelper>();
-      final user = await dbHelper.getUserById(userId ?? 0);
+      final user = await dbHelper.getUserById(userId);
       ref.watch(authProvider.notifier).set(
             userId: user?['id'],
             username: user?['username'],

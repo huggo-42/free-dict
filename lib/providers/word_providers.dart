@@ -1,5 +1,5 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:free_dict/data/datasources/cache.dart';
-import 'package:free_dict/main.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../infra/database/database_helper.dart';
 import '../infra/di/di.dart';
@@ -19,7 +19,7 @@ class SearchQuery extends _$SearchQuery {
 }
 
 @riverpod
-Future<List<String>> searchResults(SearchResultsRef ref) async {
+Future<List<String>> searchResults(Ref ref) async {
   final query = ref.watch(searchQueryProvider);
   if (query.isEmpty) return [];
   final dbHelper = locator<DatabaseHelper>();

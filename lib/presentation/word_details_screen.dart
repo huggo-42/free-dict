@@ -45,10 +45,8 @@ class _WordDetailsScreenState extends ConsumerState<WordDetailsScreen> {
       setState(() {
         _isPlayingAudio = true;
       });
-
       await _audioPlayer.setUrl(url);
       await _audioPlayer.play();
-
       await _audioPlayer.playerStateStream.firstWhere(
         (state) => state.processingState == ProcessingState.completed,
       );
@@ -87,12 +85,10 @@ class _WordDetailsScreenState extends ConsumerState<WordDetailsScreen> {
                   child: Column(
                     children: [
                       const Spacer(),
-                      // Word, Phonetic, and Audio section
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          // Word
                           Text(
                             details.word,
                             textAlign: TextAlign.center,
@@ -105,8 +101,6 @@ class _WordDetailsScreenState extends ConsumerState<WordDetailsScreen> {
                                 ),
                           ),
                           const SizedBox(height: 8),
-
-                          // Phonetic
                           if (details.phonetic != null)
                             Text(
                               details.phonetic!,
@@ -119,8 +113,6 @@ class _WordDetailsScreenState extends ConsumerState<WordDetailsScreen> {
                                   ),
                             ),
                           const SizedBox(height: 16),
-
-                          // Audio Player
                           if (details.audioUrl != null)
                             Container(
                               padding: const EdgeInsets.symmetric(
@@ -153,8 +145,6 @@ class _WordDetailsScreenState extends ConsumerState<WordDetailsScreen> {
                         ],
                       ),
                       const Spacer(),
-
-                      // Parts of Speech
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
@@ -201,8 +191,6 @@ class _WordDetailsScreenState extends ConsumerState<WordDetailsScreen> {
                   ),
                 ),
               ),
-
-              // Definition Section
               Container(
                 decoration: BoxDecoration(
                   color: colorScheme.surfaceContainerHighest,
@@ -221,7 +209,7 @@ class _WordDetailsScreenState extends ConsumerState<WordDetailsScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     SizedBox(
-                      height: 240, // Fixed height for meanings section
+                      height: 240,
                       child: SingleChildScrollView(
                         child: Padding(
                           padding: const EdgeInsets.all(24.0),
@@ -282,7 +270,6 @@ class _WordDetailsScreenState extends ConsumerState<WordDetailsScreen> {
                         ),
                       ),
                     ),
-                    // Navigation Buttons
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Row(
